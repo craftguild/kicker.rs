@@ -1,0 +1,22 @@
+{
+  "schema_version": 2,
+  "group": "kicker",
+  "config_hash": "302b5a0b677cc2c07d933abba7272fac1e1616b7ea59c5f9b657756b119ce993",
+  "head": "fc7457a4de66a3b53cb01d94537414aaa24a1596",
+  "base": null,
+  "current": "0.1.0",
+  "next": "0.1.0",
+  "tag": "v0.1.0",
+  "bump": "none",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.1.0.json",
+  "notes": "# v0.1.0\n\nGroup: `kicker`\n\nCompare: `repository root (initial release)` → `fc7457a4de66a3b53cb01d94537414aaa24a1596`\n\n## Changes\n\n- feat: initial import (fc7457a4de66a3b53cb01d94537414aaa24a1596)\n",
+  "changes": [
+    {
+      "path": "docs/releases/v0.1.0.md",
+      "before": null,
+      "after": "07642e2a48339381153ed87034561aa0727d019678c2c5c12686bae71bc027da"
+    }
+  ]
+}
