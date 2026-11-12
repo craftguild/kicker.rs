@@ -1,0 +1,23 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: warp-ubuntu-2404-x64-4x
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.95.0
+        with:
+          components: clippy,rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - name: Prepare fixed tools and locked dependencies
+        run: |
+          make setup
+          cargo +1.95.0 fetch --locked
+          cargo +1.95.0 install --locked --version 15.0.0 tokei
+      - run: make check
+      - run: make acceptance PROFILE=release

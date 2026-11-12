@@ -1,0 +1,39 @@
+version = 1
+
+[server]
+bind = "127.0.0.1:8787"
+# Use "/hooks" to expose /hooks/<hook-id> instead.
+base_path = "/"
+max_payload_bytes = 26214400
+# Body bytes per hook, including active/retrying jobs.
+max_buffered_bytes = 67108864
+shutdown_timeout_secs = 30
+max_in_flight_requests = 4
+body_timeout_secs = 10
+
+# Prefer `kicker new` to register hooks and configure secrets interactively.
+# If copying this example, set an existing absolute cwd and a real secret.
+[[hooks]]
+id = "00000000-0000-4000-8000-000000000001"
+type = "github"
+timeout_secs = 300
+# Waiting jobs per hook; one active/retrying job is separate.
+queue_size = 256
+retry_interval_secs = 60
+# Retries after the initial attempt (maximum four attempts by default).
+max_retries = 3
+
+[hooks.verification]
+secret = "replace-with-your-webhook-secret"
+
+[hooks.target]
+kind = "cmd"
+command = "cat > received.json"
+cwd = "/absolute/path/to/working-directory"
+
+# An HTTP target uses these fields instead of command/cwd:
+# [hooks.target]
+# kind = "http"
+# url = "https://example.com/endpoint"
+# [hooks.target.headers]
+# authorization = "Bearer replace-with-your-token"

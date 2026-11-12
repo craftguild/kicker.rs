@@ -1,0 +1,120 @@
+schema_version = 2
+standards_version = "0.1.0"
+rust_output_layout = "standard"
+
+[[releases]]
+id = "kicker"
+initial_version = "0.1.0"
+tag_prefix = "v"
+notes = "docs/releases"
+paths = [".agents", ".github", ".gitignore", "AGENTS.md", "Cargo.toml", "Cargo.lock", "Makefile", "README.md", "NOTICE.md", "assets", "build.rs", "config.example.toml", "craftguild.toml", "docs", "rust-toolchain.toml", "scripts", "src", "standards", "tests", "tools"]
+[[releases.cargo]]
+manifest = "Cargo.toml"
+lockfile = "Cargo.lock"
+packages = ["kicker"]
+
+[[policies]]
+kind = "publication"
+repository = "craftguild/kicker.rs"
+manifest = "Cargo.toml"
+
+[[artifacts]]
+id = "kicker"
+command = "kicker"
+project = "kicker.rs"
+kind = "rust"
+manifest = "Cargo.toml"
+lockfile = "Cargo.lock"
+package = "kicker"
+inputs = ["Makefile", "rust-toolchain.toml", "scripts/python.sh", "tools/standards.sh", "standards/engine.json", "standards/launcher.py", "standards/make/common.mk", "assets/banner.txt"]
+[artifacts.build]
+toolchain = "1.95.0"
+
+[[adapters]]
+language = "rust"
+test = ["sh", "scripts/python.sh", "scripts/standards-language.py", "test"]
+format = ["sh", "scripts/python.sh", "scripts/standards-language.py", "format"]
+lint = ["sh", "scripts/python.sh", "scripts/standards-language.py", "lint"]
+
+[[commands]]
+id = "cli-artifact-acceptance"
+purpose = "Rust acceptance of the verified copied offline CLI, exact SBOM and temporary copy-only install"
+phase = "acceptance"
+argv = ["sh", "scripts/python.sh", "scripts/standards-acceptance.py"]
+
+[[operations]]
+name = "check"
+artifact = "kicker"
+build = ["kicker"]
+[[operations]]
+name = "test"
+artifact = "kicker"
+build = ["kicker"]
+
+[[installers]]
+artifact = "kicker"
+repository = "craftguild/kicker.rs"
+release_group = "kicker"
+output = "scripts/install.sh"
+
+[[sources]]
+pattern = "{AGENTS.md,README.md,NOTICE.md}"
+role = "documentation"
+reason = "Product instructions, source entry and actual dependency/license status"
+[[sources]]
+pattern = "docs/**"
+role = "documentation"
+reason = "Product design, operation and verification procedures; historical review is explicitly scoped"
+[[sources]]
+pattern = "assets/README.md"
+role = "documentation"
+reason = "Attribution and provenance for the embedded banner, not a runtime font dependency"
+[[sources]]
+pattern = "{Cargo.toml,Makefile,build.rs,craftguild.toml,rust-toolchain.toml}"
+role = "implementation"
+reason = "Package and pinned build execution inputs"
+[[sources]]
+pattern = "config.example.toml"
+role = "implementation"
+reason = "User-facing runtime config and optional process-manager definition"
+[[sources]]
+pattern = "src/**"
+role = "implementation"
+reason = "Kicker runtime, offline terminal metadata, configuration, verification, queues and dispatch"
+[[sources]]
+pattern = "assets/banner.txt"
+role = "implementation"
+reason = "Embedded product identity asset"
+[[sources]]
+pattern = "tests/**"
+role = "test"
+reason = "Rust product domain/process/actual artifact tests, test-only unit modules and unchanged legacy terminal smoke"
+[[sources]]
+pattern = "scripts/standards-acceptance.py"
+role = "test-helper"
+reason = "Invokes Rust acceptance using the common verified receipt; assertions live in Rust"
+[[sources]]
+pattern = "scripts/{python.sh,standards-language.py,install.sh}"
+role = "implementation"
+reason = "Installed-tool selection, command orchestration and common generated installer"
+[[sources]]
+pattern = "tools/standards.sh"
+role = "implementation"
+reason = "Selects installed tools and dispatches the fixed entry"
+[[sources]]
+pattern = ".github/workflows/{ci,cli-assets,installer-acceptance}.yml"
+role = "implementation"
+reason = "Explicit tools/dependency preparation followed by the same pinned product gates"
+[[sources]]
+pattern = "standards/**"
+role = "vendored"
+reason = "Initializer-managed fixed reference and two entry files, verified by their published hashes"
+[[sources]]
+pattern = ".agents/skills/craftguild-standardize/SKILL.md"
+role = "vendored"
+reason = "Initializer-managed short guidance; no copied standards rules"
+
+[[sources]]
+pattern = ".agents/skills/beads/SKILL.md"
+role = "documentation"
+reason = "Shared local task workflow guidance"
