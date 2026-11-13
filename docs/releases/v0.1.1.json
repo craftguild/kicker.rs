@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "group": "kicker",
+  "config_hash": "302b5a0b677cc2c07d933abba7272fac1e1616b7ea59c5f9b657756b119ce993",
+  "head": "ee012edba5e3f7c781a1508472333400bcb3c96f",
+  "base": "v0.1.0",
+  "current": "0.1.0",
+  "next": "0.1.1",
+  "tag": "v0.1.1",
+  "bump": "patch",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.1.1.json",
+  "notes": "# v0.1.1\n\nGroup: `kicker`\n\nCompare: `v0.1.0` → `ee012edba5e3f7c781a1508472333400bcb3c96f`\n\n## Changes\n\n- fix(readme): clarify pre-1.0 stability and upgrade expectations (ee012edba5e3f7c781a1508472333400bcb3c96f)\n",
+  "changes": [
+    {
+      "path": "Cargo.toml",
+      "before": "a3f2060427c2ba0dbf08fdd464f99d3594cfbcdd42a8dcce38ff437ade1466e4",
+      "after": "97ca3a2ecd7cacc94e705bc6916fce4fbe99da0edcf2f436865f81ac0545a21a"
+    },
+    {
+      "path": "Cargo.lock",
+      "before": "2f6a63b36c9d4bbbda8b4f59892d7a6fb38c4971830c5c2644bbda7063fe3717",
+      "after": "b1d2a923c651c6a165bfcd6ccb11bef2ecae335fae7e6afcb76648ddb7d6f5ea"
+    },
+    {
+      "path": "docs/releases/v0.1.1.md",
+      "before": null,
+      "after": "6b8c3921ecf2e96f7df9b4d176592fadb22fe2044ca252ba90745ecaf4211966"
+    }
+  ]
+}
