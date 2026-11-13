@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "group": "kicker",
+  "config_hash": "302b5a0b677cc2c07d933abba7272fac1e1616b7ea59c5f9b657756b119ce993",
+  "head": "7cd0bd66dcdcb9a0479b29a8f988df3938bd6493",
+  "base": "v0.1.1",
+  "current": "0.1.1",
+  "next": "0.1.2",
+  "tag": "v0.1.2",
+  "bump": "patch",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.1.2.json",
+  "notes": "# v0.1.2\n\nGroup: `kicker`\n\nCompare: `v0.1.1` → `7cd0bd66dcdcb9a0479b29a8f988df3938bd6493`\n\n## Changes\n\n- fix(build): align release preparation with standards v0.6.2 (7cd0bd66dcdcb9a0479b29a8f988df3938bd6493)\n",
+  "changes": [
+    {
+      "path": "Cargo.toml",
+      "before": "974156a594a2fda24ba4c934805e22fe5b590c5303625cf2eb79d47c71936e96",
+      "after": "1ed05c6e66de5f3d0e82acfd02cd440e2f7a6c84366f7d2fb33f3780ec7f37c1"
+    },
+    {
+      "path": "Cargo.lock",
+      "before": "ddcc5714cf807a9ce7747ec601ace80cbefaa950dfcbe365f790b260d8f63821",
+      "after": "8714eda7d1936504204404da759946b0d5775171d3384c70ee9810e0c5c388e8"
+    },
+    {
+      "path": "docs/releases/v0.1.2.md",
+      "before": null,
+      "after": "7b5c150c1af224161df5dd193a60a7e11f76a88a2b9046c1473e1a262d3fb26b"
+    }
+  ]
+}
