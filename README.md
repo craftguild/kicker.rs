@@ -20,14 +20,14 @@ for each hook.
 ## Quick start
 
 Release binaries are available for Linux x86_64 GNU and macOS arm64 from
-[GitHub Releases](https://github.com/craftguild/kicker.rs/releases/tag/v0.1.0).
+[GitHub Releases](https://github.com/craftguild/kicker.rs/releases/latest).
 The installer needs POSIX sh, curl, and `sha256sum` or `shasum`. It verifies the
 downloaded checksum and installs to `~/.local/bin` by default.
 
 Install the CLI, then register a local command:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/craftguild/kicker.rs/v0.1.0/scripts/install.sh | sh -s -- --version 0.1.0
+curl -fsSL https://raw.githubusercontent.com/craftguild/kicker.rs/main/scripts/install.sh | sh
 BIN="$HOME/.local/bin/kicker"
 "$BIN" new --type github --call-cmd 'cat > received.json'
 "$BIN" list
@@ -41,9 +41,10 @@ that path on your public HTTPS reverse proxy in GitHub's webhook settings, selec
 `202` after admission and sends its original bytes to the configured command.
 GitHub `ping` returns `200` without dispatching work.
 
-Pass `--bindir /absolute/bin` after `--version 0.1.0` to choose another directory.
-Use `--uninstall` instead of `--version 0.1.0` to remove the command; pass the same
-`--bindir` for a custom destination. Add that directory to PATH for bare commands.
+The installer selects the latest published release.
+Pass `-s -- --bindir /absolute/bin` after `sh` to choose another directory.
+Use `-s -- --uninstall` after `sh` to remove the command; pass the same `--bindir` for a custom destination.
+Add that directory to PATH for bare commands.
 Each release includes target-specific `SHA256SUMS` files and a CLI SBOM.
 
 ## System requirements
