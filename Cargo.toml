@@ -12,7 +12,7 @@ anyhow = "1.0"
 axum = "0.8"
 bytes = "1"
 clap = { version = "4.5", features = ["derive", "env"] }
-craftguild-cli = { git = "https://github.com/craftguild/standards.rs", rev = "6852b210a9a614920bc5be2187f2705f46db978d" }
+craftguild-cli = { git = "https://github.com/craftguild/standards.rs", rev = "be63eefb44a850a01f4cc065c66fff2fe558ee18" }
 dialoguer = { version = "0.12", default-features = false, features = ["password"] }
 getrandom = "0.3"
 hex = "0.4"
@@ -36,7 +36,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 uuid = { version = "1", features = ["v4", "serde"] }
 
 [build-dependencies]
-craftguild-cli-build = { git = "https://github.com/craftguild/standards.rs", rev = "6852b210a9a614920bc5be2187f2705f46db978d" }
+craftguild-cli-build = { git = "https://github.com/craftguild/standards.rs", rev = "be63eefb44a850a01f4cc065c66fff2fe558ee18" }
 
 [profile.release]
 strip = true

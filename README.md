@@ -64,10 +64,7 @@ The Rust 2024 package declares minimum Rust **1.95**. Cargo.lock fixes crates.io
 dependencies and the common standards libraries. No Node.js or FIGlet tool is
 needed.
 
-Explicit `make setup` restores the repository-pinned standards **v0.6.1** engine
-on macOS arm64 or Linux x86_64 GNU. Normal build/check commands require that
-verified cache and prepared Cargo inputs; they do not download tools or update
-an engine. Checks additionally need rustfmt, Clippy and tokei **15.0.0**.
+Explicit `make setup` restores the repository-pinned standards **v0.6.2** engine on macOS arm64 or Linux x86_64 GNU. Normal build/check commands require that verified cache and prepared Cargo inputs; they do not download tools or update an engine. Checks additionally need rustfmt, Clippy and tokei **15.0.0**.
 
 ```sh
 make check

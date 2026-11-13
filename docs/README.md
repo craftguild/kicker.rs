@@ -19,7 +19,4 @@ Start with the [project README](../README.md) to build and register a hook.
 
 ## Architecture decisions
 
-[ADR 0001](adr/0001-standards-v0.5.md) fixes standards v0.6.1, Rust 1.95 and the
-local completion boundary. Its number and Accepted status are preserved.
-Read [AGENTS.md](../AGENTS.md) before implementation. Beads owns current tasks,
-check evidence and independent re-review; design documents are not task ledgers.
+[ADR 0001](adr/0001-standards-v0.5.md) fixes standards v0.6.2, Rust 1.95 and the local completion boundary. Its number and Accepted status are preserved. Read [AGENTS.md](../AGENTS.md) before implementation. Beads owns current tasks, check evidence and independent re-review; design documents are not task ledgers.

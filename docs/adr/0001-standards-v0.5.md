@@ -115,3 +115,9 @@ managed entry after its previous owned bytes were verified and archived.
 The engine and common Cargo crates use that same full revision. Product
 configuration and instructions remain intact. No old repository-name fallback
 is provided. The normative baseline stays 0.1.0; product Rust stays 1.95.
+
+## 2026-11-13 standards v0.6.2 release preparation
+
+Use published standards v0.6.2 at `be63eefb44a850a01f4cc065c66fff2fe558ee18` through the verified initializer.
+The fixed engine reference and common Cargo Git dependencies select that same full revision, with rules baseline 0.1.0 and product Rust 1.95.
+This amendment aligns the shared release preparation across CraftGuild products while preserving earlier decisions and historical producer observations.

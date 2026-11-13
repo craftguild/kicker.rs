@@ -1,12 +1,6 @@
 # Build and verification
 
-Use Rust 1.95.0, Make, Python 3.11+, a native linker, rustfmt, Clippy and
-tokei 15.0.0. The repository fixes standards v0.6.1 at
-`6852b210a9a614920bc5be2187f2705f46db978d`. Its init-only command is optional
-for a checkout that already contains the reference and entries. Explicitly run
-`make setup`, then `cargo +1.95.0 fetch --locked`; these are the preparation
-steps allowed to obtain the engine and locked Cargo inputs. Ordinary operations
-use the existing cache and do not install dependencies or toolchains.
+Use Rust 1.95.0, Make, Python 3.11+, a native linker, rustfmt, Clippy and tokei 15.0.0. The repository fixes standards v0.6.2 at `be63eefb44a850a01f4cc065c66fff2fe558ee18`. Its init-only command is optional for a checkout that already contains the reference and entries. Explicitly run `make setup`, then `cargo +1.95.0 fetch --locked`; these are the preparation steps allowed to obtain the engine and locked Cargo inputs. Ordinary operations use the existing cache and do not install dependencies or toolchains.
 
 ## Required local commands
 
