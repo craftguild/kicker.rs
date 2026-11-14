@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "group": "kicker",
+  "config_hash": "b826ff1827339e493757176283efed0fbc03ca3bd6a1347203740b2b93cc2bf2",
+  "head": "9c8d72a730ad7339916128def81227e51abbaaf2",
+  "base": "v0.1.2",
+  "current": "0.1.2",
+  "next": "0.2.0",
+  "tag": "v0.2.0",
+  "bump": "minor",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.2.0.json",
+  "notes": "# v0.2.0\n\nGroup: `kicker`\n\nCompare: `v0.1.2` → `9c8d72a730ad7339916128def81227e51abbaaf2`\n\n## Changes\n\n- docs(readme): install the latest published release (d60374c039bf5672aabaeb202fb04efe0fa81f24)\n- fix(logging)!: expose safe webhook rejection diagnostics (9c8d72a730ad7339916128def81227e51abbaaf2)\n\n## Breaking changes\n\n- log consumers must read message instead of fields.message. Provider implementations must construct VerifyError with VerifyError::new(reason), optionally followed by with_field(field). (9c8d72a730ad7339916128def81227e51abbaaf2)\n",
+  "changes": [
+    {
+      "path": "Cargo.toml",
+      "before": "1ed05c6e66de5f3d0e82acfd02cd440e2f7a6c84366f7d2fb33f3780ec7f37c1",
+      "after": "d9a93a874581f77349cb361e51c9bab4d3ef624b314bf4de2c7774571bf3578b"
+    },
+    {
+      "path": "Cargo.lock",
+      "before": "8714eda7d1936504204404da759946b0d5775171d3384c70ee9810e0c5c388e8",
+      "after": "48d291cddcb6aaccaa23e82ed52138492aa5268c116b12f3372331d2c456d4ca"
+    },
+    {
+      "path": "docs/releases/v0.2.0.md",
+      "before": null,
+      "after": "33647fe76bb2a9f42cd5f0e2d7e261703c739afa85e238f07c3945547014a277"
+    }
+  ]
+}
