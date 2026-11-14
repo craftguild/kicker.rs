@@ -7,7 +7,7 @@ id = "kicker"
 initial_version = "0.1.0"
 tag_prefix = "v"
 notes = "docs/releases"
-paths = [".agents", ".github", ".gitignore", "AGENTS.md", "Cargo.toml", "Cargo.lock", "Makefile", "README.md", "NOTICE.md", "assets", "build.rs", "config.example.toml", "craftguild.toml", "docs", "rust-toolchain.toml", "scripts", "src", "standards", "tests", "tools"]
+paths = [".agents", ".github", ".gitignore", "AGENTS.md", "CLAUDE.md", "Cargo.toml", "Cargo.lock", "Makefile", "README.md", "NOTICE.md", "assets", "build.rs", "config.example.toml", "craftguild.toml", "docs", "rust-toolchain.toml", "scripts", "src", "standards", "tests", "tools"]
 [[releases.cargo]]
 manifest = "Cargo.toml"
 lockfile = "Cargo.lock"
@@ -58,7 +58,7 @@ release_group = "kicker"
 output = "scripts/install.sh"
 
 [[sources]]
-pattern = "{AGENTS.md,README.md,NOTICE.md}"
+pattern = "{AGENTS.md,CLAUDE.md,README.md,NOTICE.md}"
 role = "documentation"
 reason = "Product instructions, source entry and actual dependency/license status"
 [[sources]]

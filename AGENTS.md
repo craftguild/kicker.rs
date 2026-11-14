@@ -12,7 +12,8 @@ Update explicitly with `craftguild-standards init [--force]`; follow its depende
 `.agents/skills/` cover Beads and the pinned Craftguild entry. Tool-specific
 `.claude/`, `.codex/`, `.cursor/` and editor settings are local and ignored.
 Beads data and configuration stay entirely local in ignored `.beads/`; do not
-publish or synchronize them. Run `bd prime` for the local task workflow.
+publish or synchronize them.
+Read the [Beads skill](.agents/skills/beads/SKILL.md), run `bd prime`, and claim work before editing.
 
 # kicker.rs product guidance
 

@@ -28,9 +28,36 @@ pub enum VerificationOutcome {
     Respond { status: StatusCode, body: Bytes },
 }
 
+/// Safe provider-defined diagnostics for the server's verification failure log.
+/// Use fixed reason/field names, never request values or credentials.
 #[derive(Debug, Error)]
 #[error("invalid webhook")]
-pub struct VerifyError;
+pub struct VerifyError {
+    reason: &'static str,
+    field: Option<&'static str>,
+}
+
+impl VerifyError {
+    pub const fn new(reason: &'static str) -> Self {
+        Self {
+            reason,
+            field: None,
+        }
+    }
+
+    pub const fn with_field(mut self, field: &'static str) -> Self {
+        self.field = Some(field);
+        self
+    }
+
+    pub const fn reason(&self) -> &'static str {
+        self.reason
+    }
+
+    pub const fn field(&self) -> Option<&'static str> {
+        self.field
+    }
+}
 
 /// Compile-time provider extension point; no dynamically loaded code is needed.
 pub trait WebhookProvider: Send + Sync {

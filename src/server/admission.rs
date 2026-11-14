@@ -76,6 +76,15 @@ async fn receive(
             .providers
             .get(&hook.kind)?
             .verify(&hook.verification, &request);
+        if let Err(error) = &outcome {
+            tracing::warn!(
+                hook_id = %hook.id,
+                provider = %hook.kind,
+                reason = error.reason(),
+                field = error.field(),
+                "webhook verification failed"
+            );
+        }
         if app.closing.is_cancelled() {
             return Ok(StatusCode::SERVICE_UNAVAILABLE.into_response());
         }

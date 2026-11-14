@@ -174,7 +174,7 @@ def main():
                     events = [json.loads(line) for line in log_text.splitlines()]
                     for event in events:
                         fields = event["fields"]
-                        if fields.get("message") == "job transition":
+                        if event.get("message") == "job transition":
                             expected = "ERROR" if fields["state"] in ("failed", "timed_out", "retry_waiting") else "INFO"
                             assert event["level"] == expected
                     assert any(event.get("fields", {}).get("state") == "cancelled" for event in events)
@@ -183,7 +183,7 @@ def main():
                     transitions = set()
                     for event in events:
                         fields = event["fields"]
-                        if fields.get("message") != "job transition":
+                        if event.get("message") != "job transition":
                             continue
                         transition = fields["transition_id"]
                         uuid.UUID(transition)

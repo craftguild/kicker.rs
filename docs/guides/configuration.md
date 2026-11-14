@@ -189,17 +189,41 @@ normal lifecycle transitions and shutdown cancellation are INFO. TRACE/DEBUG
 would route to stdout, but are disabled by the fixed `kicker=info` filter.
 `RUST_LOG` does not override that filter.
 
+Every operational record has the same five top-level fields: `timestamp` (UTC), `level`, `target` (the logging module), `message` and `fields`.
+`message` is always a string; `fields` is always an object containing the event-specific fields, or `{}` when there are none.
+Event fields retain their JSON types, and absent optional values are omitted rather than adding empty fields to unrelated events.
+For example:
+
+```json
+{
+  "timestamp": "2026-11-14T12:00:00.000000Z",
+  "level": "INFO",
+  "target": "kicker::server",
+  "message": "listening",
+  "fields": {"bind": "127.0.0.1:8787"}
+}
+```
+
+For log consumers using the previous tracing JSON layout, read the top-level `message` instead of `fields.message`; other event-specific values remain under `fields`.
+
 Transition records include UTC time, a transition UUID, job/hook/delivery IDs,
 attempt number and previous/new states (including `retry_waiting`). Failures
 include a safe reason and, where available, exit code, signal, HTTP status or
 I/O error kind. Kicker's own records do not include bodies, secrets, command
 strings, destination URLs or authentication values.
 
+Provider verification failures produce one WARN record on stdout with the message `webhook verification failed`; its `fields` object contains configured `hook_id` and `provider`, a fixed `reason`, and an optional `field` name.
+For example, omitting `X-GitHub-Delivery` from an otherwise valid request logs `fields.reason = "missing_header"` and `fields.field = "x-github-delivery"`.
+GitHub distinguishes missing, duplicate and invalid headers, malformed or mismatched signatures, unsupported content types, invalid JSON and non-object JSON.
+Only the first failing check is reported, preserving signature verification before JSON decoding.
+These records contain no incoming header values, signatures, body contents or URI, and HTTP responses remain empty `400`.
+If shutdown starts during verification, a failed verification is still logged while the existing empty `503` response takes precedence.
+
 Child stdout/stderr are inherited unchanged, without automatic hook/job ID
 prefixes or secret masking. Both streams can contain child text alongside
 Kicker's JSON. CLI results, setup prompts and startup/parser errors are also
-plain text. There is no per-request access log for signature rejection or full
-queues; use the HTTP response to identify rejected deliveries.
+plain text.
+There is no general per-request access log for other admission failures, such as full queues; use the HTTP response to identify those rejections.
 
 kicker.rs does not save or rotate log files itself. The operator owns stream
 capture, file permissions and retention. A supervisor or shell redirection can

@@ -4,6 +4,7 @@ pub mod cli;
 pub mod config;
 pub mod dispatch;
 pub mod job;
+pub mod logging;
 pub mod model;
 pub mod provider;
 pub mod queue;

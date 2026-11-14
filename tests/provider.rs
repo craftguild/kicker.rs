@@ -1,6 +1,12 @@
 mod common;
 use common::*;
-use kicker::provider::{Providers, VerificationOutcome};
+use kicker::provider::{Providers, VerificationOutcome, VerifyError};
+
+fn assert_rejection(error: VerifyError, reason: &str, field: Option<&str>) {
+    assert_eq!(error.reason(), reason);
+    assert_eq!(error.field(), field);
+    assert_eq!(error.to_string(), "invalid webhook");
+}
 
 #[test]
 fn hmac_matches_github_official_vector() {
@@ -51,30 +57,84 @@ fn missing_duplicate_malformed_and_tampered_deliveries_are_rejected() {
     ] {
         let mut value = input(b"{}", "push");
         value.headers.remove(name);
-        assert!(provider.verify(&config, &value).is_err(), "missing {name}");
+        assert_rejection(
+            provider.verify(&config, &value).err().unwrap(),
+            "missing_header",
+            Some(name),
+        );
         let mut value = input(b"{}", "push");
         value.headers.append(name, "duplicate".parse().unwrap());
-        assert!(
-            provider.verify(&config, &value).is_err(),
-            "duplicate {name}"
+        assert_rejection(
+            provider.verify(&config, &value).err().unwrap(),
+            "duplicate_header",
+            Some(name),
+        );
+        let mut value = input(b"{}", "push");
+        value
+            .headers
+            .insert(name, axum::http::HeaderValue::from_bytes(&[0xff]).unwrap());
+        assert_rejection(
+            provider.verify(&config, &value).err().unwrap(),
+            "invalid_header",
+            Some(name),
         );
     }
-    for (name, value) in [
-        ("x-hub-signature-256", "sha1=bad"),
-        ("x-hub-signature-256", "sha256=zz"),
-        ("x-github-event", ""),
-        ("x-github-event", "bad event"),
-        ("x-github-delivery", "not-a-guid"),
-        ("content-type", "application/x-www-form-urlencoded"),
+    for (name, value, reason) in [
+        ("x-hub-signature-256", "sha1=bad", "invalid_signature"),
+        ("x-hub-signature-256", "sha256=zz", "invalid_signature"),
+        ("x-github-event", "", "invalid_header"),
+        ("x-github-event", "bad event", "invalid_header"),
+        ("x-github-delivery", "not-a-guid", "invalid_header"),
+        (
+            "content-type",
+            "application/x-www-form-urlencoded",
+            "unsupported_content_type",
+        ),
     ] {
         let mut request = input(b"{}", "push");
         request.headers.insert(name, value.parse().unwrap());
-        assert!(provider.verify(&config, &request).is_err());
+        assert_rejection(
+            provider.verify(&config, &request).err().unwrap(),
+            reason,
+            Some(name),
+        );
     }
+    let mut bad_hex = input(b"{}", "push");
+    bad_hex.headers.insert(
+        "x-hub-signature-256",
+        format!("sha256={}", "z".repeat(64)).parse().unwrap(),
+    );
+    assert_rejection(
+        provider.verify(&config, &bad_hex).err().unwrap(),
+        "invalid_signature",
+        Some("x-hub-signature-256"),
+    );
     let mut changed = input(b"{}", "push");
     changed.body = bytes::Bytes::from_static(b"{ }");
-    assert!(provider.verify(&config, &changed).is_err());
-    for raw in [b"not JSON".as_slice(), b"[]", b"null", &[0xff]] {
-        assert!(provider.verify(&config, &input(raw, "push")).is_err());
+    changed.headers.remove("x-github-delivery");
+    assert_rejection(
+        provider.verify(&config, &changed).err().unwrap(),
+        "signature_mismatch",
+        Some("x-hub-signature-256"),
+    );
+    for (raw, reason) in [
+        (b"not JSON".as_slice(), "invalid_json"),
+        (b"[]".as_slice(), "non_object_json"),
+        (b"null".as_slice(), "non_object_json"),
+        (&[0xff], "invalid_json"),
+    ] {
+        assert_rejection(
+            provider.verify(&config, &input(raw, "push")).err().unwrap(),
+            reason,
+            None,
+        );
     }
+    assert_rejection(
+        provider
+            .verify(&toml::Table::new(), &input(b"{}", "push"))
+            .err()
+            .unwrap(),
+        "invalid_configuration",
+        Some("secret"),
+    );
 }

@@ -27,7 +27,7 @@ fn main() -> std::process::ExitCode {
 #[tokio::main]
 async fn run(cli: kicker::cli::Cli) -> std::process::ExitCode {
     tracing_subscriber::fmt()
-        .json()
+        .event_format(kicker::logging::JsonLog)
         .with_writer(severity_writer(std::io::stdout, std::io::stderr))
         .with_env_filter("kicker=info")
         .init();

@@ -101,6 +101,8 @@ the runner; forced cancellation settles active command groups.
 The server gives raw transport bytes to a provider. GitHub verifies HMAC-SHA256
 with constant-time comparison before JSON decoding. The original body is retained
 through execution. Provider errors return generic `400` without reflecting input.
+One JSON formatter owns the common `timestamp`, `level`, `target`, `message`, `fields` envelope for all operational events; event-specific fields live in the free `fields` object.
+Providers attach fixed reason and optional field names to `VerifyError`; admission logs them once at WARN in `fields` with the configured hook ID and provider type, without request values or internal error text.
 GitHub event and delivery headers are metadata, not fields cryptographically
 covered by the body signature. They never choose a target or modify a command.
 

@@ -38,7 +38,7 @@ impl WebhookProvider for Example {
             .and_then(|value| value.to_str().ok())
             != Some("example-token")
         {
-            return Err(VerifyError);
+            return Err(VerifyError::new("invalid_token").with_field("x-example-token"));
         }
         Ok(VerificationOutcome::Respond {
             status: StatusCode::OK,

@@ -17,6 +17,18 @@ The trait methods are:
 - `verify`: inspect `WebhookRequest` (method, URI, headers, original `Bytes`) and
   return `VerificationOutcome` or `VerifyError`.
 
+Construct verification failures with `VerifyError::new("reason")`, optionally followed by `.with_field("field-name")`.
+For example, a missing delivery header returns `Err(VerifyError::new("missing_header").with_field("x-github-delivery"))`.
+This replaces the former unit value `Err(VerifyError)`; the `verify` signature is unchanged.
+The `reason()` and `field()` accessors expose the diagnostic fields, while `Display` remains the generic `invalid webhook`.
+
+Reason and field names are provider-defined `&'static str` values intended for logs, not request or configuration values.
+Use fixed diagnostic labels and never include credentials, signatures, payloads or internal error text.
+The server emits one WARN JSON record for each returned `VerifyError`, with a common top-level `message` and the configured hook ID, provider type, reason and optional field inside `fields`.
+Do not log the same rejection in the provider.
+HTTP rejection responses remain empty `400`; diagnostics are never reflected to the sender.
+If shutdown begins during verification, the diagnostic is still recorded and the existing empty `503` response takes precedence.
+
 `VerificationOutcome::Dispatch(VerifiedPayload)` contains the body, content type,
 event and delivery ID. Retain the original body bytes. Metadata must be suitable
 for environment variables and HTTP headers. Do not put secrets in metadata.
@@ -43,3 +55,5 @@ When embedding, `server::router` and `router_with_config` return `Result<Router>
 and load a configuration snapshot at construction. Use a fresh dispatcher and
 router when applying a new snapshot so queue policies and admission settings
 share one lifetime.
+
+Embedding applications can use `tracing_subscriber::fmt().event_format(kicker::logging::JsonLog)` to apply the same `timestamp`, `level`, `target`, `message`, `fields` envelope to operational events.
